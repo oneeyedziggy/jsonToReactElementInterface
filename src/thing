@@ -1,0 +1,86 @@
+import React, { useState } from 'react';
+
+const MetaForm = () => {
+  const [selectedOption, setSelectedOption] = useState('');
+  const [options, setOptions] = useState({});
+  const [output, setOutput] = useState('');
+  const [lastFocus, setLastFocus] = useState('name');
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+    setOptions({});
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setOptions((prevOptions) => ({
+      ...prevOptions,
+      [name]: value,
+    }));
+  };
+
+  const BaseFormControl = ({ children }) => (
+    <div>
+      <label htmlFor="name">Name:</label>
+      <br />
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        value={options.name || ''}
+        onChange={handleInputChange}
+        key="name"
+        onFocus={() => setLastFocus('name')}
+        autoFocus={lastFocus === 'name'}
+      />
+      <br />
+      {children}
+    </div>
+  );
+
+  const renderFormControl = () => {
+    switch (selectedOption) {
+      // ... (rest of your code remains unchanged)
+    }
+  };
+
+  return (
+    <div style={{ padding: 'auto' }}>
+      <div
+        style={{
+          border: '1px solid #ccc',
+          padding: '10px',
+          width: '15%',
+          minWidth: '200px',
+        }}
+      >
+        <div>
+          <label htmlFor="select">Select an option:</label>
+          <select
+            id="controlSelect"
+            value={selectedOption}
+            onChange={handleOptionChange}
+            key="controlSelect"
+          >
+            <option value="">Select one</option>
+            <option value="range">Range</option>
+            <option value="checkbox">Checkbox</option>
+            <option value="radioGroup">Radio Group</option>
+          </select>
+        </div>
+        <div>{renderFormControl()}</div>
+        <div>
+          <textarea
+            rows="5"
+            cols="50"
+            value={JSON.stringify(options, null, 2)}
+            style={{ width: '90%' }}
+            onChange={(e) => setOutput(e.target.value)}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MetaForm;
